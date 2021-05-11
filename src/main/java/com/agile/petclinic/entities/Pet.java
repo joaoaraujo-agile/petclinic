@@ -2,12 +2,17 @@ package com.agile.petclinic.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_pet")
@@ -21,6 +26,10 @@ public class Pet implements Serializable {
 	private LocalDate birthdate;
 	private String breed;
 	private Character gender;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "pet")
+	private Set<Appointment> appointments = new HashSet<>();
 
 	public Pet() {
 		super();
@@ -73,6 +82,10 @@ public class Pet implements Serializable {
 
 	public void setGender(Character gender) {
 		this.gender = gender;
+	}
+
+	public Set<Appointment> getAppointments() {
+		return appointments;
 	}
 
 	@Override
