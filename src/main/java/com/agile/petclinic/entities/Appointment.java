@@ -27,7 +27,7 @@ public class Appointment implements Serializable {
 	private Instant datetime;
 	
 	private String description;
-	private AppointmentType type;
+	private Integer type;
 
 	@ManyToOne
 	@JoinColumn(name = "pet_id")
@@ -42,7 +42,7 @@ public class Appointment implements Serializable {
 		this.id = id;
 		this.datetime = datetime;
 		this.description = description;
-		this.type = type;
+		setType(type);
 		this.pet = pet;
 	}
 
@@ -71,11 +71,13 @@ public class Appointment implements Serializable {
 	}
 
 	public AppointmentType getType() {
-		return type;
+		return AppointmentType.valueOf(type);
 	}
 
 	public void setType(AppointmentType type) {
-		this.type = type;
+		if (type != null) {
+			this.type = type.getCode();
+		}
 	}
 	
 	public Pet getPet() {
