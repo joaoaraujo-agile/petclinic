@@ -18,14 +18,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.agile.petclinic.entities.security.JWTAuthenticationFilter;
-import com.agile.petclinic.entities.security.JWTAuthorizationFilter;
-import com.agile.petclinic.entities.security.JWTUtil;
-
 @Configuration
 @EnableWebSecurity
-@Profile("!test")
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@Profile("test")
+public class SecurityTestConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -33,10 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private Environment env;
 
-	@Autowired
-	private JWTUtil jwtUtil;
-
-	private static final String[] PUBLIC_MATCHERS = { "/h2-console/**", "/auth" };
+	private static final String[] PUBLIC_MATCHERS = { "/**" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -46,9 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		}
 
 		http.cors().and().csrf().disable();
-		http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll().anyRequest().authenticated();
-		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
-		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
+		http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
