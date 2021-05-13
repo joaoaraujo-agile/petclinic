@@ -46,7 +46,7 @@ public class UserService {
 
 	private void updateData(User entity, User obj) {
 		entity.setName(obj.getName());
-		entity.setPassword(obj.getPassword());		
+		entity.setPassword(pe.encode(obj.getPassword()));		
 	}
 	
 	public static UserSS authenticated() {
