@@ -18,7 +18,7 @@ import com.agile.petclinic.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private BCryptPasswordEncoder pe;
 
@@ -28,13 +28,14 @@ public class UserService {
 	public List<User> findAll() {
 		return repository.findAll();
 	}
-	
+
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
-	
+
 	public User insert(User obj) {
+		obj.setPassword(pe.encode(obj.getPassword()));
 		return repository.save(obj);
 	}
 
@@ -45,7 +46,7 @@ public class UserService {
 			throw new ResourceNotFoundException(id);
 		}
 	}
-	
+
 	public User update(Long id, User obj) {
 		try {
 			User entity = repository.getOne(id);
@@ -58,14 +59,15 @@ public class UserService {
 
 	private void updateData(User entity, User obj) {
 		entity.setName(obj.getName());
-		entity.setPassword(pe.encode(obj.getPassword()));		
+		if (obj.getPassword() != null) {
+			entity.setPassword(pe.encode(obj.getPassword()));
+		}
 	}
-	
+
 	public static UserSS authenticated() {
 		try {
 			return (UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
