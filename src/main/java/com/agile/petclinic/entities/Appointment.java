@@ -35,7 +35,7 @@ public class Appointment implements Serializable {
 	@JoinColumn(name = "pet_id")
 	private Pet pet;
 
-	@OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Payment payment;
 
 	public Appointment() {

@@ -43,7 +43,9 @@ public class PaymentService {
 
 	public void delete(Long id) {
 		try {
-			repository.deleteById(id);
+			Appointment appointment = appointmentRepository.getOne(id);
+			appointment.setPayment(null);
+			appointmentRepository.save(appointment);			
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException(id);
 		}

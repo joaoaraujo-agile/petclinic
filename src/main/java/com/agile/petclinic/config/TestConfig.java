@@ -61,7 +61,9 @@ public class TestConfig implements CommandLineRunner {
 
 		Payment pay1 = new Payment(null, Instant.now(), 80.00, PaymentType.CASH, ap2);
 		ap2.setPayment(pay1);
-		appointmentRepository.save(ap2);
+		Payment pay2 = new Payment(null, Instant.now(), 50.00, PaymentType.CASH, ap3);
+		ap3.setPayment(pay2);
+		appointmentRepository.saveAll(Arrays.asList(ap2, ap3));
 
 	}
 
