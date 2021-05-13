@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import com.agile.petclinic.dto.PaymentRequestDTO;
 import com.agile.petclinic.entities.Appointment;
 import com.agile.petclinic.entities.Payment;
-import com.agile.petclinic.exceptions.ResourceNotFoundException;
 import com.agile.petclinic.repositories.AppointmentRepository;
 import com.agile.petclinic.repositories.PaymentRepository;
+import com.agile.petclinic.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class PaymentService {

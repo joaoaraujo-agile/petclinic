@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agile.petclinic.entities.Pet;
-import com.agile.petclinic.exceptions.ResourceNotFoundException;
 import com.agile.petclinic.repositories.PetRepository;
+import com.agile.petclinic.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class PetService {

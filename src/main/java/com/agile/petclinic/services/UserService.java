@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.agile.petclinic.entities.User;
 import com.agile.petclinic.entities.security.UserSS;
-import com.agile.petclinic.exceptions.ResourceNotFoundException;
 import com.agile.petclinic.repositories.UserRepository;
+import com.agile.petclinic.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
