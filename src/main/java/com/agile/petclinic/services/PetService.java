@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agile.petclinic.entities.Pet;
+import com.agile.petclinic.exceptions.ResourceNotFoundException;
 import com.agile.petclinic.repositories.PetRepository;
 
 @Service
@@ -21,7 +22,7 @@ public class PetService {
 	
 	public Pet findById(Long id) {
 		Optional<Pet> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	public Pet insert(Pet obj) {

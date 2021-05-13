@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agile.petclinic.entities.Appointment;
+import com.agile.petclinic.exceptions.ResourceNotFoundException;
 import com.agile.petclinic.repositories.AppointmentRepository;
 
 @Service
@@ -21,7 +22,7 @@ public class AppointmentService {
 
 	public Appointment findById(Long id) {
 		Optional<Appointment> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
 	public Appointment insert(Appointment obj) {
