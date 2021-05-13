@@ -45,7 +45,6 @@ public class Payment implements Serializable {
 		this.amount = amount;
 		setType(type);
 		this.appointment = appointment;
-		System.out.println("******************************************************************" + this.getAppointment().getId());
 	}
 
 	public Long getId() {
