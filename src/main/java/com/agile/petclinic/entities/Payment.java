@@ -3,22 +3,21 @@ package com.agile.petclinic.entities;
 import java.io.Serializable;
 import java.time.Instant;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.agile.petclinic.entities.enums.AppointmentType;
+import com.agile.petclinic.entities.enums.PaymentType;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "tb_appointment")
-public class Appointment implements Serializable {
+@Table(name = "tb_payment")
+public class Payment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,29 +26,26 @@ public class Appointment implements Serializable {
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant datetime;
-
-	private String description;
+	private Double amount;
 	private Integer type;
 
-	@ManyToOne
-	@JoinColumn(name = "pet_id")
-	private Pet pet;
+	@JsonIgnore
+	@OneToOne
+	@MapsId
+	private Appointment appointment;
 
-	@OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL)
-	private Payment payment;
-
-	public Appointment() {
+	public Payment() {
 		super();
 	}
 
-	public Appointment(Long id, Instant datetime, String description, AppointmentType type, Pet pet, Payment payment) {
+	public Payment(Long id, Instant datetime, Double amount, PaymentType type, Appointment appointment) {
 		super();
 		this.id = id;
 		this.datetime = datetime;
-		this.description = description;
+		this.amount = amount;
 		setType(type);
-		this.pet = pet;
-		this.payment = payment;
+		this.appointment = appointment;
+		System.out.println("******************************************************************" + this.getAppointment().getId());
 	}
 
 	public Long getId() {
@@ -68,38 +64,30 @@ public class Appointment implements Serializable {
 		this.datetime = datetime;
 	}
 
-	public String getDescription() {
-		return description;
+	public Double getAmount() {
+		return amount;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setAmount(Double amount) {
+		this.amount = amount;
 	}
 
-	public AppointmentType getType() {
-		return AppointmentType.valueOf(type);
+	public PaymentType getType() {
+		return PaymentType.valueOf(type);
 	}
 
-	public void setType(AppointmentType type) {
+	public void setType(PaymentType type) {
 		if (type != null) {
 			this.type = type.getCode();
 		}
 	}
 
-	public Pet getPet() {
-		return pet;
+	public Appointment getAppointment() {
+		return appointment;
 	}
 
-	public void setPet(Pet pet) {
-		this.pet = pet;
-	}
-
-	public Payment getPayment() {
-		return payment;
-	}
-
-	public void setPayment(Payment payment) {
-		this.payment = payment;
+	public void setAppointment(Appointment appointment) {
+		this.appointment = appointment;
 	}
 
 	@Override
@@ -118,7 +106,7 @@ public class Appointment implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Appointment other = (Appointment) obj;
+		Payment other = (Payment) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -126,5 +114,7 @@ public class Appointment implements Serializable {
 			return false;
 		return true;
 	}
+
+	
 
 }

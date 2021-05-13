@@ -43,5 +43,6 @@ public class AppointmentService {
 		entity.setDescription(obj.getDescription());
 		entity.setType(obj.getType());
 		entity.setPet(obj.getPet());
+		entity.setPayment(obj.getPayment());
 	}
 }
