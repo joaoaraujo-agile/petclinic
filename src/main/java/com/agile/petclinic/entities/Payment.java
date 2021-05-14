@@ -3,6 +3,7 @@ package com.agile.petclinic.entities;
 import java.io.Serializable;
 import java.time.Instant;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,6 +34,9 @@ public class Payment implements Serializable {
 	@OneToOne
 	@MapsId
 	private Appointment appointment;
+
+	@OneToOne(mappedBy = "payment", cascade = CascadeType.ALL, orphanRemoval = true)
+	private PaymentHistory history;
 
 	public Payment() {
 		super();
@@ -89,6 +93,14 @@ public class Payment implements Serializable {
 		this.appointment = appointment;
 	}
 
+	public PaymentHistory getHistory() {
+		return history;
+	}
+
+	public void setHistory(PaymentHistory history) {
+		this.history = history;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -113,7 +125,5 @@ public class Payment implements Serializable {
 			return false;
 		return true;
 	}
-
-	
 
 }

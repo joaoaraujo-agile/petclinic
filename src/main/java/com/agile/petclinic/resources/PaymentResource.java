@@ -17,6 +17,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.agile.petclinic.dto.PaymentRequestDTO;
 import com.agile.petclinic.entities.Payment;
+import com.agile.petclinic.entities.PaymentHistory;
+import com.agile.petclinic.services.PaymentHistoryService;
 import com.agile.petclinic.services.PaymentService;
 
 @RestController
@@ -25,6 +27,9 @@ public class PaymentResource {
 
 	@Autowired
 	private PaymentService service;
+	
+	@Autowired
+	private PaymentHistoryService phService;
 
 	@GetMapping
 	public ResponseEntity<List<Payment>> findAll() {
@@ -54,6 +59,12 @@ public class PaymentResource {
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Payment> update(@PathVariable Long id, @RequestBody Payment obj) {
 		obj = service.update(id, obj);
+		return ResponseEntity.ok().body(obj);
+	}
+	
+	@GetMapping(value = "/history")
+	public ResponseEntity<List<PaymentHistory>> getPetHistory() {
+		List<PaymentHistory> obj = phService.findAll();
 		return ResponseEntity.ok().body(obj);
 	}
 }
