@@ -100,15 +100,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/users/4",
+					"raw": "http://localhost:8080/users",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"users",
-						"4"
+						"users"
 					]
 				}
 			},
@@ -158,7 +157,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"datetime\": \"2021-05-14T12:00:00Z\",\r\n    \"description\": \"Routine exam\",\r\n    \"type\": \"MEDICAL\",\r\n    \"pet\": {\r\n        \"id\": 1,\r\n        \"name\": null,\r\n        \"birthdate\": null,\r\n        \"breed\": null,\r\n        \"gender\": null\r\n    },\r\n    \"payment\": null\r\n}",
+					"raw": "{\r\n    \"datetime\": \"2021-05-14T13:00:00Z\",\r\n    \"description\": \"Routine exam\",\r\n    \"type\": \"MEDICAL\",\r\n    \"pet\": {\r\n        \"id\": 1\r\n    },\r\n    \"payment\": null\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -223,7 +222,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"datetime\": \"2021-05-14T00:00:00Z\",\r\n    \"amount\": 100.00,\r\n    \"type\": \"CASH\",\r\n    \"appointmentId\": 1\r\n}",
+					"raw": "{\r\n    \"datetime\": \"2021-05-14T00:00:00Z\",\r\n    \"amount\": 200.00,\r\n    \"type\": \"CASH\",\r\n    \"appointmentId\": 2\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -258,8 +257,12 @@
 						"type": "text"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "http://localhost:8080/payments/1",
+					"raw": "http://localhost:8080/payments/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -267,7 +270,7 @@
 					"port": "8080",
 					"path": [
 						"payments",
-						"1"
+						"2"
 					]
 				}
 			},
@@ -462,6 +465,64 @@
 					"path": [
 						"payments",
 						"history"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET pet",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/pets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST pet",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/pets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pets"
 					]
 				}
 			},
