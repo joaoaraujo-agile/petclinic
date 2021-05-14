@@ -44,7 +44,7 @@ class PaymentResourceTest {
 	private AppointmentService appointmentService;
 
 	@MockBean
-	private PaymentHistoryService paymentHistoryService;
+	private PaymentHistoryService pahService;
 
 	@Autowired
 	ObjectMapper Obj;
@@ -60,7 +60,9 @@ class PaymentResourceTest {
 
 	static PaymentHistory ph1;
 	static PaymentHistory ph2;
+	
 	static PaymentHistory ph3;
+	static PaymentRequestDTO objDTO;
 
 	@BeforeAll
 	static void initAll() {
@@ -71,12 +73,13 @@ class PaymentResourceTest {
 		ap3 = new Appointment(3L, Instant.parse("2021-05-13T12:00:00Z"), "Shower and Grooming",
 				AppointmentType.GROOMING, null, null, null);
 
-		pay1 = new Payment(2L, null, null, null, ap2);
+		pay1 = new Payment(2L, Instant.now(), 1000.00, PaymentType.CASH, ap2);
 		ap2.setPayment(pay1);
-		pay2 = new Payment(3L, null, null, null, ap3);
+		pay2 = new Payment(3L, Instant.now(), 100.00, PaymentType.CASH, ap3);
 		ap3.setPayment(pay2);
 
 		pay3 = new Payment(1L, Instant.now(), 250.00, PaymentType.CASH, ap1);
+		ap1.setPayment(pay3);
 
 		ph1 = new PaymentHistory(2L, pay1);
 		pay1.setHistory(ph1);
@@ -84,6 +87,8 @@ class PaymentResourceTest {
 		pay2.setHistory(ph2);
 		ph3 = new PaymentHistory(1L, pay3);
 		pay3.setHistory(ph3);
+		
+		objDTO = PaymentRequestDTO.toDTO(pay3);
 	}
 
 	@Test
@@ -108,8 +113,6 @@ class PaymentResourceTest {
 
 	@Test
 	void postMethod() throws Exception {
-		PaymentRequestDTO objDTO = PaymentRequestDTO.toDTO(pay3);
-
 		when(service.insert(objDTO)).thenReturn(pay3);
 
 		this.mockMvc.perform(post("/payments").contentType("application/json").content(Obj.writeValueAsString(objDTO)))
@@ -134,7 +137,7 @@ class PaymentResourceTest {
 	@Test
 	void getPaymentHistory() throws Exception {
 		List<PaymentHistory> list = Arrays.asList(ph1, ph2, ph3);
-		when(paymentHistoryService.findAll()).thenReturn(list);
+		when(pahService.findAll()).thenReturn(list);
 
 		this.mockMvc.perform(get("/payments/history")).andDo(print()).andExpect(status().isOk())
 				.andExpect(content().json(Obj.writeValueAsString(list)));

@@ -22,6 +22,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.agile.petclinic.entities.Pet;
+import com.agile.petclinic.services.PetAppointmentHistoryService;
 import com.agile.petclinic.services.PetService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -33,6 +34,9 @@ class PetResourceTest {
 
 	@MockBean
 	private PetService service;
+
+	@MockBean
+	private PetAppointmentHistoryService pahService;
 
 	@Autowired
 	ObjectMapper Obj;
@@ -57,41 +61,41 @@ class PetResourceTest {
 		this.mockMvc.perform(get("/pets")).andDo(print()).andExpect(status().isOk())
 				.andExpect(content().json(Obj.writeValueAsString(list)));
 	}
-	
+
 	@Test
 	void getOneMethod() throws Exception {
 		Long id = pet1.getId();
-		
+
 		when(service.findById(id)).thenReturn(pet1);
 
 		this.mockMvc.perform(get("/pets/" + id)).andDo(print()).andExpect(status().isOk())
 				.andExpect(content().json(Obj.writeValueAsString(pet1)));
 	}
-	
+
 	@Test
 	void postMethod() throws Exception {
 		Pet obj = new Pet(4L, "Jack", LocalDate.of(2014, Month.JANUARY, 15), "Rottweiler", 'M');
 
 		when(service.insert(obj)).thenReturn(obj);
-		
-		this.mockMvc.perform(post("/pets").contentType("application/json").content(Obj.writeValueAsString(obj))).andDo(print()).andExpect(status().isCreated())
-		.andExpect(content().json(Obj.writeValueAsString(obj)));
+
+		this.mockMvc.perform(post("/pets").contentType("application/json").content(Obj.writeValueAsString(obj)))
+				.andDo(print()).andExpect(status().isCreated()).andExpect(content().json(Obj.writeValueAsString(obj)));
 	}
 
 	@Test
-	void deleteMethod() throws Exception {		
+	void deleteMethod() throws Exception {
 		this.mockMvc.perform(delete("/pets/" + 1L)).andDo(print()).andExpect(status().isNoContent());
 	}
-	
+
 	@Test
 	void putMethod() throws Exception {
 		Long id = 3L;
-		
+
 		Pet obj = new Pet(id, "Lucy", LocalDate.of(2014, Month.JANUARY, 15), "German Shepherd", 'F');
 
 		when(service.update(id, obj)).thenReturn(obj);
-		
-		this.mockMvc.perform(put("/pets/" + id).contentType("application/json").content(Obj.writeValueAsString(obj))).andDo(print()).andExpect(status().isOk())
-		.andExpect(content().json(Obj.writeValueAsString(obj)));
+
+		this.mockMvc.perform(put("/pets/" + id).contentType("application/json").content(Obj.writeValueAsString(obj)))
+				.andDo(print()).andExpect(status().isOk()).andExpect(content().json(Obj.writeValueAsString(obj)));
 	}
 }

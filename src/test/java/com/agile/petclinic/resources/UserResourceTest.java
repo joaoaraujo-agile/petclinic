@@ -20,6 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.agile.petclinic.entities.User;
+import com.agile.petclinic.services.PetAppointmentHistoryService;
 import com.agile.petclinic.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,6 +32,9 @@ class UserResourceTest {
 
 	@MockBean
 	private UserService service;
+	
+	@MockBean
+	private PetAppointmentHistoryService pahService;
 
 	@Autowired
 	ObjectMapper Obj;
@@ -40,8 +44,8 @@ class UserResourceTest {
 
 	@BeforeAll
 	static void initAll() {
-		usr1 = new User(null, "admin", "admin", "*****");
-		usr2 = new User(null, "user", "user", "*****");
+		usr1 = new User(1L, "admin", "admin", "*****");
+		usr2 = new User(2L, "user", "user", "*****");
 	}
 
 	@Test
@@ -50,7 +54,7 @@ class UserResourceTest {
 
 		when(service.findAll()).thenReturn(list);
 
-		this.mockMvc.perform(get("/pets")).andDo(print()).andExpect(status().isOk())
+		this.mockMvc.perform(get("/users")).andDo(print()).andExpect(status().isOk())
 				.andExpect(content().json(Obj.writeValueAsString(list)));
 	}
 	
@@ -60,7 +64,7 @@ class UserResourceTest {
 		
 		when(service.findById(id)).thenReturn(usr2);
 
-		this.mockMvc.perform(get("/pets/" + id)).andDo(print()).andExpect(status().isOk())
+		this.mockMvc.perform(get("/users/" + id)).andDo(print()).andExpect(status().isOk())
 				.andExpect(content().json(Obj.writeValueAsString(usr2)));
 	}
 	
@@ -70,13 +74,13 @@ class UserResourceTest {
 
 		when(service.insert(obj)).thenReturn(obj);
 		
-		this.mockMvc.perform(post("/pets").contentType("application/json").content(Obj.writeValueAsString(obj))).andDo(print()).andExpect(status().isCreated())
+		this.mockMvc.perform(post("/users").contentType("application/json").content(Obj.writeValueAsString(obj))).andDo(print()).andExpect(status().isCreated())
 		.andExpect(content().json(Obj.writeValueAsString(obj)));
 	}
 
 	@Test
 	void deleteMethod() throws Exception {		
-		this.mockMvc.perform(delete("/pets/" + 2L)).andDo(print()).andExpect(status().isNoContent());
+		this.mockMvc.perform(delete("/users/" + 2L)).andDo(print()).andExpect(status().isNoContent());
 	}
 	
 	@Test
@@ -87,7 +91,7 @@ class UserResourceTest {
 
 		when(service.update(id, obj)).thenReturn(obj);
 		
-		this.mockMvc.perform(put("/pets/" + id).contentType("application/json").content(Obj.writeValueAsString(obj))).andDo(print()).andExpect(status().isOk())
+		this.mockMvc.perform(put("/users/" + id).contentType("application/json").content(Obj.writeValueAsString(obj))).andDo(print()).andExpect(status().isOk())
 		.andExpect(content().json(Obj.writeValueAsString(obj)));
 	}
 	
@@ -99,7 +103,7 @@ class UserResourceTest {
 		
 		when(service.update(id, obj)).thenReturn(obj);
 		
-		this.mockMvc.perform(put("/pets/" + id).contentType("application/json").content(Obj.writeValueAsString(obj))).andDo(print()).andExpect(status().isOk())
+		this.mockMvc.perform(put("/users/" + id).contentType("application/json").content(Obj.writeValueAsString(obj))).andDo(print()).andExpect(status().isOk())
 		.andExpect(content().json(Obj.writeValueAsString(obj)));
 	}
 }
