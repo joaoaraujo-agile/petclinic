@@ -15,7 +15,7 @@ import com.agile.petclinic.queues.PaymentHistoryReceiver;
 @Configuration
 public class PaymentHistoryRabbitMQConfig {
 
-	private static final String topicExchangeName = "petclinic-exchange";
+	private static final String topicExchangeName = "petclinic-exchange-payment-history";
 
 	static final String queueName = "payment-history";
 
@@ -30,17 +30,17 @@ public class PaymentHistoryRabbitMQConfig {
 	}
 
 	@Bean
-	Binding bindingPaymentHistory(Queue queue, TopicExchange exchange) {
-		return BindingBuilder.bind(queue).to(exchange).with("paymenthistory.#");
+	Binding bindingPaymentHistory(Queue queuePaymentHistory, TopicExchange exchangePaymentHistory) {
+		return BindingBuilder.bind(queuePaymentHistory).to(exchangePaymentHistory).with("paymenthistory.#");
 	}
 
 	@Bean
 	SimpleMessageListenerContainer containerPaymentHistory(ConnectionFactory connectionFactory,
-			MessageListenerAdapter listenerAdapter) {
+			MessageListenerAdapter listenerAdapterPaymentHistory) {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
 		container.setQueueNames(queueName);
-		container.setMessageListener(listenerAdapter);
+		container.setMessageListener(listenerAdapterPaymentHistory);
 		return container;
 	}
 

@@ -35,6 +35,7 @@ public class Payment implements Serializable {
 	@MapsId
 	private Appointment appointment;
 
+	@JsonIgnore
 	@OneToOne(mappedBy = "payment", cascade = CascadeType.ALL, orphanRemoval = true)
 	private PaymentHistory history;
 

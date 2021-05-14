@@ -23,7 +23,7 @@ import com.agile.petclinic.repositories.UserRepository;
 import com.agile.petclinic.services.PetAppointmentHistoryService;
 
 @Configuration
-@Profile("test")
+@Profile("!prod")
 public class TestConfig implements CommandLineRunner {
 
 	@Autowired

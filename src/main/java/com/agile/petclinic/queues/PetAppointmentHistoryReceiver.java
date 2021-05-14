@@ -16,6 +16,7 @@ public class PetAppointmentHistoryReceiver {
 	private PetAppointmentHistoryService service;
 
 	public void receiveMessage(String id) {
+		System.out.println("########################$ PetAppointmentHistoryReceiver");
 		latch.countDown();
 		try {			
 			service.insert(Long.parseLong(id));

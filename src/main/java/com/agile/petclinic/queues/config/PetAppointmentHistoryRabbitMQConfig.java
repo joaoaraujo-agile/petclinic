@@ -15,37 +15,37 @@ import com.agile.petclinic.queues.PetAppointmentHistoryReceiver;
 @Configuration
 public class PetAppointmentHistoryRabbitMQConfig {
 
-	private static final String topicExchangeName = "petclinic-exchange";
+	private static final String topicExchangeName = "petclinic-exchange-pet-history";
 
 	static final String queueName = "pet-history";
 
 	@Bean
-	Queue queue() {
+	Queue queuePetAppointmentHistory() {
 		return new Queue(queueName, false);
 	}
 
 	@Bean
-	TopicExchange exchange() {
+	TopicExchange exchangePetAppointmentHistory() {
 		return new TopicExchange(topicExchangeName);
 	}
 
 	@Bean
-	Binding binding(Queue queue, TopicExchange exchange) {
-		return BindingBuilder.bind(queue).to(exchange).with("pethistory.#");
+	Binding bindingPetAppointmentHistory(Queue queuePetAppointmentHistory, TopicExchange exchangePetAppointmentHistory) {
+		return BindingBuilder.bind(queuePetAppointmentHistory).to(exchangePetAppointmentHistory).with("pethistory.#");
 	}
 
 	@Bean
-	SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
-			MessageListenerAdapter listenerAdapter) {
+	SimpleMessageListenerContainer containerPetAppointmentHistory(ConnectionFactory connectionFactory,
+			MessageListenerAdapter listenerAdapterPetAppointmentHistory) {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
 		container.setQueueNames(queueName);
-		container.setMessageListener(listenerAdapter);
+		container.setMessageListener(listenerAdapterPetAppointmentHistory);
 		return container;
 	}
 
 	@Bean
-	MessageListenerAdapter listenerAdapter(PetAppointmentHistoryReceiver receiver) {
+	MessageListenerAdapter listenerAdapterPetAppointmentHistory(PetAppointmentHistoryReceiver receiver) {
 		return new MessageListenerAdapter(receiver, "receiveMessage");
 	}
 

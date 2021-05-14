@@ -22,7 +22,6 @@ public class PaymentHistory extends Auditable<String> implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@JsonIgnore
 	@OneToOne
 	@MapsId
 	private Payment payment;

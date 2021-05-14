@@ -47,6 +47,7 @@ public class PaymentResource {
 	public ResponseEntity<Payment> insert(@RequestBody PaymentRequestDTO obj) {
 		Payment payment = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(payment.getId()).toUri();
+		phService.send(payment);
 		return ResponseEntity.created(uri).body(payment);
 	}
 

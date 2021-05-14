@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import com.agile.petclinic.entities.enums.AppointmentType;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_appointment")
@@ -38,6 +39,7 @@ public class Appointment implements Serializable {
 	@OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Payment payment;
 
+	@JsonIgnore
 	@OneToOne(mappedBy = "historyAppointment", cascade = CascadeType.ALL, orphanRemoval = true)
 	private PetAppointmentHistory history;
 
