@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.agile.petclinic.entities.Pet;
+import com.agile.petclinic.entities.PetAppointmentHistory;
+import com.agile.petclinic.services.PetAppointmentHistoryService;
 import com.agile.petclinic.services.PetService;
 
 @RestController
@@ -24,6 +26,9 @@ public class PetResource {
 
 	@Autowired
 	private PetService service;
+	
+	@Autowired
+	private PetAppointmentHistoryService pahService;
 
 	@GetMapping
 	public ResponseEntity<List<Pet>> findAll() {
@@ -53,6 +58,12 @@ public class PetResource {
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Pet> update(@PathVariable Long id, @RequestBody Pet obj) {
 		obj = service.update(id, obj);
+		return ResponseEntity.ok().body(obj);
+	}
+	
+	@GetMapping(value = "/history/{id}")
+	public ResponseEntity<List<PetAppointmentHistory>> getPetHistory(@PathVariable Long id) {
+		List<PetAppointmentHistory> obj = pahService.getPetHistory(id);
 		return ResponseEntity.ok().body(obj);
 	}
 }

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.agile.petclinic.entities.Appointment;
 import com.agile.petclinic.services.AppointmentService;
+import com.agile.petclinic.services.PetAppointmentHistoryService;
 
 @RestController
 @RequestMapping("/appointments")
@@ -24,6 +25,9 @@ public class AppointmentResource {
 
 	@Autowired
 	private AppointmentService service;
+	
+	@Autowired
+	private PetAppointmentHistoryService pahService;
 
 	@GetMapping
 	public ResponseEntity<List<Appointment>> findAll() {
@@ -40,7 +44,8 @@ public class AppointmentResource {
 	@PostMapping
 	public ResponseEntity<Appointment> insert(@RequestBody Appointment obj) {
 		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();		
+		pahService.send(obj);
 		return ResponseEntity.created(uri).body(obj);
 	}
 

@@ -3,6 +3,7 @@ package com.agile.petclinic.dto;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.agile.petclinic.entities.Payment;
 import com.agile.petclinic.entities.enums.PaymentType;
 
 public class PaymentRequestDTO implements Serializable {
@@ -24,6 +25,10 @@ public class PaymentRequestDTO implements Serializable {
 		this.amount = amount;
 		setType(type);
 		this.appointmentId = appointmentId;
+	}
+	
+	public static PaymentRequestDTO toDTO (Payment obj) {
+		return new PaymentRequestDTO(obj.getDatetime(), obj.getAmount(), obj.getType(), obj.getId());
 	}
 
 	public Instant getDatetime() {

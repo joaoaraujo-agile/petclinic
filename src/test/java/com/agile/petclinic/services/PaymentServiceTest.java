@@ -44,9 +44,9 @@ class PaymentServiceTest {
 		pet3 = new Pet(3L, "Milo", LocalDate.of(2016, Month.AUGUST, 9), "Yorkshire", 'M');
 		
 		ap2 = new Appointment(2L, Instant.parse("2021-05-14T11:00:00Z"), "Surgery", AppointmentType.MEDICAL, pet2,
-				pay1);
+				pay1, null);
 		ap3 = new Appointment(3L, Instant.parse("2021-05-13T12:00:00Z"), "Shower and Grooming",
-				AppointmentType.GROOMING, pet3, pay2);
+				AppointmentType.GROOMING, pet3, pay2, null);
 		
 		pay1 = new Payment(2L, Instant.now(), 80.00, PaymentType.CASH, ap2);
 		pay2 = new Payment(3L, Instant.now(), 50.00, PaymentType.CASH, ap3);

@@ -20,6 +20,7 @@ import com.agile.petclinic.entities.enums.PaymentType;
 import com.agile.petclinic.repositories.AppointmentRepository;
 import com.agile.petclinic.repositories.PetRepository;
 import com.agile.petclinic.repositories.UserRepository;
+import com.agile.petclinic.services.PetAppointmentHistoryService;
 
 @Configuration
 @Profile("test")
@@ -37,6 +38,9 @@ public class TestConfig implements CommandLineRunner {
 	@Autowired
 	private AppointmentRepository appointmentRepository;
 
+	@Autowired
+	private PetAppointmentHistoryService pahService;
+
 	@Override
 	public void run(String... args) throws Exception {
 
@@ -52,11 +56,11 @@ public class TestConfig implements CommandLineRunner {
 		petRepository.saveAll(Arrays.asList(pet1, pet2, pet3));
 
 		Appointment ap1 = new Appointment(null, Instant.parse("2021-05-13T12:00:00Z"), "Routine exam",
-				AppointmentType.MEDICAL, pet1, null);
+				AppointmentType.MEDICAL, pet1, null, null);
 		Appointment ap2 = new Appointment(null, Instant.parse("2021-05-14T11:00:00Z"), "Surgery",
-				AppointmentType.MEDICAL, pet2, null);
+				AppointmentType.MEDICAL, pet2, null, null);
 		Appointment ap3 = new Appointment(null, Instant.parse("2021-05-13T12:00:00Z"), "Shower and Grooming",
-				AppointmentType.GROOMING, pet3, null);
+				AppointmentType.GROOMING, pet3, null, null);
 
 		appointmentRepository.saveAll(Arrays.asList(ap1, ap2, ap3));
 
@@ -64,8 +68,8 @@ public class TestConfig implements CommandLineRunner {
 		ap2.setPayment(pay1);
 		Payment pay2 = new Payment(null, Instant.now(), 50.00, PaymentType.CASH, ap3);
 		ap3.setPayment(pay2);
-		appointmentRepository.saveAll(Arrays.asList(ap2, ap3));
 
+		appointmentRepository.saveAll(Arrays.asList(ap2, ap3));
 	}
 
 }

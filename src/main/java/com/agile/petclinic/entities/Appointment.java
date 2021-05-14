@@ -38,11 +38,14 @@ public class Appointment implements Serializable {
 	@OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Payment payment;
 
+	@OneToOne(mappedBy = "historyAppointment", cascade = CascadeType.ALL, orphanRemoval = true)
+	private PetAppointmentHistory history;
+
 	public Appointment() {
 		super();
 	}
 
-	public Appointment(Long id, Instant datetime, String description, AppointmentType type, Pet pet, Payment payment) {
+	public Appointment(Long id, Instant datetime, String description, AppointmentType type, Pet pet, Payment payment, PetAppointmentHistory history) {
 		super();
 		this.id = id;
 		this.datetime = datetime;
@@ -50,6 +53,7 @@ public class Appointment implements Serializable {
 		setType(type);
 		this.pet = pet;
 		this.payment = payment;
+		this.history = history;
 	}
 
 	public Long getId() {
@@ -100,6 +104,14 @@ public class Appointment implements Serializable {
 
 	public void setPayment(Payment payment) {
 		this.payment = payment;
+	}
+
+	public PetAppointmentHistory getHistory() {
+		return history;
+	}
+
+	public void setHistory(PetAppointmentHistory history) {
+		this.history = history;
 	}
 
 	@Override
